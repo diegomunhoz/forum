@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -49,14 +50,14 @@ public class TopicoController {
 	private CursoRepository cursoRepository;
 
 	@GetMapping
+	@Cacheable(value = "listaDeTopicos")
 	public Page<TopicoDto> listar(@RequestParam(required = false) String nomeCurso,
-			@PageableDefault(sort = "id", direction = Direction.DESC) Pageable paginacao) {
+			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao) {
 
 		/*
-		 * @PageableDefault = só é acionado caso não chegue a ordenação
-		 * pela requisição
+		 * @PageableDefault = só é acionado caso não chegue a ordenação pela requisição
 		 */
-		
+
 		Page<Topico> topicos = null;
 
 		if (nomeCurso == null) {
