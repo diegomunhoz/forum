@@ -1,11 +1,27 @@
 package br.com.foursys.forum.controller.form;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.foursys.forum.model.Usuario;
 
 public class UsuarioForm {
 
+	@NotNull
+	@NotEmpty
+	@Length(min = 10)
 	private String nome;
+	
+	@NotNull
+	@NotEmpty
+	@Length(min = 10)
 	private String email;
+	
+	@NotNull
+	@NotEmpty
+	@Length(min = 10)
 	private String senha;
 
 	public String getNome() {

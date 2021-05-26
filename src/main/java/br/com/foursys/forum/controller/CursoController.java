@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import br.com.foursys.forum.model.Curso;
 import br.com.foursys.forum.repository.CursoRepository;
 
 /**
- * Classe responsável por controlar os processos de tópicos do forum de duvidas
+ * Classe responsável por controlar os processos de cursos do forum de duvidas
  * 
  * @author Diego Munhoz
  * @since 17/05/2021
@@ -32,7 +33,7 @@ public class CursoController {
 	private CursoRepository cursoRepository;
 
 	@GetMapping
-	public List<CursoDto> lista() {
+	public List<CursoDto> listar() {
 		List<Curso> cursos = cursoRepository.findAll();
 		return CursoDto.converter(cursos);
 	}
@@ -44,6 +45,12 @@ public class CursoController {
 
 		URI uri = uriBuilder.path("/cursos/{id}").buildAndExpand(curso.getId()).toUri();
 		return ResponseEntity.created(uri).body(new CursoDto(curso));
+	}
+	
+	@GetMapping("/{id}")
+	public CursoDto detalhar(@PathVariable Long id) {
+		Curso curso = cursoRepository.getOne(id);
+		return new CursoDto(curso);
 	}
 
 
